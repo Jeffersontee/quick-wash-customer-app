@@ -1,0 +1,7 @@
+{
+  "name": "maza-eats-customer-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

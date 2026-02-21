@@ -1,0 +1,98 @@
+<ion-content class="ion-padding">
+
+  <ion-avatar>
+    <ion-img src="assets/imgs/logo.png"></ion-img>
+  </ion-avatar>
+
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-list lines="none">
+      <ion-item-group class="ion-margin-bottom">
+        <ion-item color="light">
+          <ion-icon name="mail" slot="start" color="medium"></ion-icon> 
+          <ion-input
+            label=""
+            errorText="* Please enter a valid email address"
+            type="email"
+            name="email"
+            ngModel
+            email
+            #emailCtrl="ngModel"
+            placeholder="Email"
+            required>
+          </ion-input>
+        </ion-item>
+        <!-- <ion-text color="danger" *ngIf="!emailCtrl.valid && emailCtrl.touched" class="ion-text-center">
+          <p class="errorMsg">* Please enter a valid email address</p>
+        </ion-text> -->
+      </ion-item-group>
+      <ion-item color="light">
+        <ion-icon name="key" slot="start" color="medium"></ion-icon> 
+        <ion-icon color="primary" slot="end" (click)="changeType()" [name]="type ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+        <ion-input
+          label=""
+          errorText="* Password must be of minimum 8 characters long."
+          [type]="type ? 'password' : 'text'"
+          name="password"
+          ngModel
+          #passwordCtrl="ngModel"
+          placeholder="Password"
+          required
+          minlength="8">
+        </ion-input>
+      </ion-item>
+      <!-- <ion-text color="danger" *ngIf="!passwordCtrl.valid && passwordCtrl.touched" class="ion-text-center">
+        <p class="errorMsg">* Password must be of minimum 8 characters long.</p>
+      </ion-text> -->
+    </ion-list>
+
+    <p class="ion-text-right">
+      <ion-text id="forgot-password">
+        Forgot password?
+      </ion-text>
+    </p>
+
+    <ion-button 
+      *ngIf="!isLogin" 
+      [disabled]="!f.valid"
+      expand="block" 
+      shape="round" 
+      type="submit"
+      size="large" 
+      color="primary">
+      <ion-text>LOGIN</ion-text>
+    </ion-button>
+
+    <div class="ion-text-center" *ngIf="isLogin">
+      <ion-button 
+        shape="round" color="primary" size="large" [disabled]="!f.valid">
+        <ion-spinner name="circles"></ion-spinner>
+      </ion-button>
+    </div>
+    
+  </form>
+
+  <ion-text color="primary" class="ion-text-center" routerLink="/login/signup">
+    <p class="marginTop">
+      Don't have an account?
+      <b>Sign Up</b>
+    </p>
+  </ion-text>
+
+  <ion-modal
+    #forgot_pwd_modal
+    trigger="forgot-password"
+    cssClass="inline_modal"
+    (ionModalDidDismiss)="reset($event)"
+    [breakpoints]="[0.1, 0.5, 0.9]"
+    [initialBreakpoint]="0.5">
+    <ng-template>
+      <app-reset-password
+        [model]="reset_pwd_model"
+        (check_email)="sendResetPasswordEmailOtp($event)"
+        (verify_otp)="verifyResetPasswordOtp($event)"
+        (set_password)="resetPassword($event)">
+      </app-reset-password>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

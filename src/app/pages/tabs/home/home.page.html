@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar mode="md">
+    <ion-title color="dark" (click)="searchLocation('select-place')">
+      <span *ngIf="location?.lat">{{location?.title}}</span>
+      <span *ngIf="!location || !location?.lat">Home</span>
+      <ion-icon color="dark" name="chevron-down-outline"></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="isLoading"><ion-skeleton-text animated style="height: 25vh;"></ion-skeleton-text></div>
+  <app-loading-restaurant *ngIf="isLoading"></app-loading-restaurant>
+  
+  <app-banner *ngIf="!isLoading" [bannerImages]="banners"></app-banner>
+
+  <ion-list *ngIf="!isLoading">
+    <ion-list-header class="ion-margin-bottom">
+      <ion-label>
+        <h4>Restaurants Nearby</h4>
+        <p>Discover unique tastes near you</p>
+      </ion-label>
+    </ion-list-header>
+    <ion-text *ngIf="restaurants?.length == 0" class="ion-text-center" color="danger">
+      <p>No Restaurants found near you</p>
+    </ion-text>
+    <ion-item-group *ngIf="restaurants?.length > 0">
+      <app-restaurant 
+        *ngFor="let restaurant of restaurants" 
+        [restaurant]="restaurant"
+        [routerLink]="['/', 'tabs', 'restaurants', restaurant._id]"></app-restaurant>
+    </ion-item-group>
+  </ion-list>
+
+  <ion-infinite-scroll
+    *ngIf="!isLoading && restaurants?.length > 0"
+    threshold="100px"
+    (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="circles"
+      loadingText="Loading more Restaurants...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-modal
+    #otp_modal
+    [isOpen]="verifyOtp"
+    (ionModalDidDismiss)="resetOtpModal($event)"
+    cssClass="inline_modal"
+    [breakpoints]="[0.32, 0.5, 0.9]"
+    [initialBreakpoint]="0.32">
+    <ng-template>
+     <app-otp-screen (verified)="otpVerified($event)" [sendOtp]="true"></app-otp-screen>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Maza Eats</string>
+    <string name="title_activity_main">Maza Eats</string>
+    <string name="package_name">com.technyks.mazaEats</string>
+    <string name="custom_url_scheme">com.technyks.mazaEats</string>
+
+    <string name="publishable_key">your_publishable_key</string>
+    <bool name="enable_google_pay">true</bool>
+    <string name="country_code">IN</string>
+    <string name="merchant_display_name">Maza Eats</string>
+    <bool name="google_pay_is_testing">true</bool>
+</resources>

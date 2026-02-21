@@ -1,0 +1,12 @@
+p {
+    font-size: 0.75rem;
+}
+.profile {
+    ion-avatar, img {
+        width: 4vh;
+        height: 4vh;
+    }
+    input[type='file'] {
+        display: none;
+    }
+}

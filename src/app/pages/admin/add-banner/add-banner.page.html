@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Banner</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item lines="none">
+    <input type="file" (change)="preview($event)">
+    <ion-thumbnail slot="end">
+      <img *ngIf="bannerImage" [src]="bannerImage" />
+    </ion-thumbnail>
+  </ion-item>
+
+  <ion-button expand="block" class="ion-margin" color="primary" (click)="save()">Save</ion-button>
+
+</ion-content>

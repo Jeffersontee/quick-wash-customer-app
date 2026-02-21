@@ -1,0 +1,26 @@
+ion-list {
+    background: transparent;
+    ion-item {
+        border-radius: 10px;
+        ion-label {
+            font-size: 0.95rem;
+        }
+    }
+}
+
+.md {
+    ion-icon {
+        // margin-left: 1vh;
+        // margin-right: 2.5vh;
+        margin-left: 8px;
+        margin-right: 24px;
+    }
+}
+.ios {
+    ion-icon {
+        // margin-left: 0.6vh;
+        // margin-right: 2.8vh;
+        margin-left: 5px;
+        margin-right: 24px;
+    }
+}

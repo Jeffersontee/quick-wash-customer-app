@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>My Account</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="confirmLogout()">
+        <ion-icon name="power-outline" color="white" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="isLoading" class="ion-text-center alignSpinner">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <ion-list class="borderBottom">
+      <ion-item lines="full" class="profile">
+        <ion-avatar slot="start" (click)="editPicture()">
+          <!-- <img [src]="profile?.photo ? serverUrl + profile.photo : 'assets/imgs/avatar.png'" /> -->
+          <img [src]="profile?.photo ? profile.photo : 'assets/imgs/avatar.png'" />
+        </ion-avatar>
+        <input *ngIf="global.checkPlatformForWeb()" type="file" accept="image/jpeg;image/png" #filePicker (change)="onFileChosen($event)">
+        <ion-label>
+          <ion-text class="ion-text-uppercase"><h4>{{profile?.name}}</h4></ion-text>
+          <p>{{profile?.phone}} | {{profile?.email}}</p>
+        </ion-label>
+        <ion-button slot="end" fill="clear" (click)="editProfile()">EDIT</ion-button>
+      </ion-item>
+      <ion-item lines="none" detail="true" [routerLink]="['/', 'tabs', 'address']">
+        <ion-icon name="home-outline" slot="start" color="dark"></ion-icon>
+        <h5>Manage Addresses</h5>
+      </ion-item>
+    </ion-list>
+  
+    <ion-list>
+      <ion-list-header>
+        <ion-label color="primary">PAST ORDERS</ion-label>
+      </ion-list-header>
+      <ion-text class="ion-text-center" *ngIf="!orders || orders?.length == 0">
+        <p>No Orders Placed Yet</p>
+      </ion-text>
+      <app-orders 
+        *ngFor="let order of orders" 
+        [order]="order"
+        (reorder)="reorder($event)"
+        (help)="getHelp($event)">
+      </app-orders>
+    </ion-list>
+
+    <ion-infinite-scroll
+    *ngIf="orders?.length > 0"
+    threshold="100px"
+    (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="circles"
+      loadingText="Loading more Orders...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  </ng-container>
+
+  <ion-modal
+    #otp_modal
+    [isOpen]="verifyOtp"
+    cssClass="inline_modal"
+    (ionModalDidDismiss)="resetOtpModal($event)"
+    [breakpoints]="[0.32, 0.5, 0.9]"
+    [initialBreakpoint]="0.32">
+    <ng-template>
+     <app-otp-screen (verified)="otpVerified($event)"></app-otp-screen>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>
